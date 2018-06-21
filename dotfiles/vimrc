@@ -1,0 +1,79 @@
+set nocompatible              " be iMproved, required
+filetype on                   "this is dumb but needed
+filetype off                  " required
+
+" Install vim-plug if it does not exist on your machine
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin('~/.vim/plugged')
+Plug 'morhetz/gruvbox'
+"Plug 'honza/vim-snippets'
+"Plug 'Valloric/YouCompleteMe'
+call plug#end()
+
+hi vertsplit ctermfg=238 ctermbg=235
+hi LineNr ctermfg=237
+hi StatusLine ctermfg=235 ctermbg=245
+hi StatusLineNC ctermfg=235 ctermbg=237
+hi Search ctermbg=58 ctermfg=15
+hi Default ctermfg=1
+hi clear SignColumn
+hi SignColumn ctermbg=235
+hi GitGutterAdd ctermbg=235 ctermfg=245
+hi GitGutterChange ctermbg=235 ctermfg=245
+hi GitGutterDelete ctermbg=235 ctermfg=245
+hi GitGutterChangeDelete ctermbg=235 ctermfg=245
+hi EndOfBuffer ctermfg=237 ctermbg=235
+
+"This will only search case senstive when provided capitols
+set smartcase
+set hls
+
+
+set relativenumber "this can be done with rnu
+set number "this can be done with nu
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
+set expandtab
+
+" pressing F3 stops the hellish autoindenting shit when pasting
+set pastetoggle=<F3>
+
+
+" wordwrap is silly, let's just set a reasonable indicator
+set colorcolumn=80,120
+
+set statusline=%=%P\ %f\ %m
+set fillchars=vert:\ ,stl:\ ,stlnc:\
+set laststatus=2
+set noshowmode
+
+"I hate not seeing tabs and trailing spaces
+set listchars=tab:>-,trail:-
+set list
+
+"I hate it when backspace is weird in vim.
+set backspace=indent,eol,start
+
+"I hate it when I can't use arrow keys at the end of lines."
+set whichwrap+=<,>,h,l,[,]
+
+"I hate it when people have .swp files everywhere
+"Let's put those in a single place
+
+"You have to create the backup directory
+set backupdir=~/.vim/backup/
+set directory=~/.vim/backup/
+
+set background=dark
+
+"  if you are feeling really fancy
+"  https://github.com/morhetz/gruvbox
+colorscheme gruvbox
+"let g:gruvbox_contrast_dark = 'hard'
+"syntax on
