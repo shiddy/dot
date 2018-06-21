@@ -1,6 +1,13 @@
-* Duh DawtFayels
+<div align="center">
+  <a href="https://github.com/posquit0/dotfiles" title="Shiddy's DawtFayels">
+    <img alt="Shiddy's dotfiles" src="https://raw.githubusercontent.com/shiddy/dot/master/dawtimg.png?token=ADq2K9r11OARwOZ-caLO-FfmzlH-MvUZks5bNTOdwA%3D%3D"/>
+  </a>
+  <br/>
+  <h1>Shiddy's DawtFayels</h1>
+</div>
 
 check the
+
     dotdrop.sh --help
 
 I have color stuffs that should be dropped in ~/.color
