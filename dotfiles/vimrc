@@ -2,19 +2,6 @@ set nocompatible              " be iMproved, required
 filetype on                   "this is dumb but needed
 filetype off                  " required
 
-" Install vim-plug if it does not exist on your machine
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-
-call plug#begin('~/.vim/plugged')
-Plug 'morhetz/gruvbox'
-"Plug 'honza/vim-snippets'
-"Plug 'Valloric/YouCompleteMe'
-call plug#end()
-
 hi vertsplit ctermfg=238 ctermbg=235
 hi LineNr ctermfg=237
 hi StatusLine ctermfg=235 ctermbg=245
@@ -63,6 +50,10 @@ set backspace=indent,eol,start
 "I hate it when I can't use arrow keys at the end of lines."
 set whichwrap+=<,>,h,l,[,]
 
+"I hate it when you enter append or insert mode and your cursor moves
+"relative to character you started from
+au InsertLeave * call cursor([getpos('.')[1], getpos('.')[2]+1])
+
 "I hate it when people have .swp files everywhere
 "Let's put those in a single place
 
@@ -74,6 +65,18 @@ set background=dark
 
 "  if you are feeling really fancy
 "  https://github.com/morhetz/gruvbox
+" Install vim-plug if it does not exist on your machine
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin('~/.vim/plugged')
+Plug 'morhetz/gruvbox'
+Plug 'maralla/completor.vim'
+call plug#end()
+
 colorscheme gruvbox
-"let g:gruvbox_contrast_dark = 'hard'
-"syntax on
+let g:gruvbox_contrast_dark = 'hard'
+syntax on

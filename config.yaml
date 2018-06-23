@@ -1,5 +1,8 @@
 actions:
   pre:
+    install-pack: v=v0.2.2 && os=x86_64-apple-darwin && wget https://github.com/maralla/pack/releases/download/$v/pack-$v-$os.tar.gz && tar -xf pack-$v-$os.tar.gz && pack-$v-$os.tar.gz/pack /usr/local/bin/
+    install-vim-plug: curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    install-vim-completer: mkdir -p ~/.vim/pack/completor/start && git clone https://github.com/maralla/completor.vim.git ~/.vim/pack/completor/start/completor && pack install maralla/completor.vim
     make-swp: touch ~/.tmux.conf.local && mkdir -p ~/.vim/backup && mdkir -p ~/.colors
 config:
   backup: true
