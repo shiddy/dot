@@ -21,9 +21,6 @@ dotfiles:
   f_oceanicnext.itermcolors:
     dst: ~/.colors/oceanicnext.itermcolors
     src: colors/oceanicnext.itermcolors
-  f_tellgruv.vim:
-    dst: /usr/local/share/vim/vim80/colors/tellgruv.vim
-    src: colors/tellgruv.vim
   f_tmux.conf:
     dst: ~/.tmux.conf
     src: tmux.conf
