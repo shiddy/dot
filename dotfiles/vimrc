@@ -16,29 +16,69 @@ hi GitGutterDelete ctermbg=235 ctermfg=245
 hi GitGutterChangeDelete ctermbg=235 ctermfg=245
 hi EndOfBuffer ctermfg=237 ctermbg=235
 
+set path+=**
+set wildmenu
+
 "This will only search case senstive when provided capitols
 set smartcase
 set hls
 
-
-set relativenumber "this can be done with rnu
-set number "this can be done with nu
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
+" I like tabs as 4 spaces when not in paste mode.
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
 set expandtab
 
 " pressing F3 stops the hellish autoindenting shit when pasting
 set pastetoggle=<F3>
 
+set number "this can be done with nu
+set relativenumber "this can be done with rnu
+" pressing F4 to toggle lines for copying lines
+nmap <silent> <F4> :call ToggleNu()<CR>
 
-" wordwrap is silly, let's just set a reasonable indicator
-set colorcolumn=80,120
+" It would be nice if I could just copy the current line to my buffer
+nnoremap <F5> !! pbcopy<CR> u
+
+" wordwrap is silly, let's just set a reasonable indicator when we are at 79
+" characters
+map <silent> <F6> :call ToggleOverLineHighlight(1)<CR>
+
+
+let b:nuIndex=1
+function! ToggleNu()
+  let b:nuIndex=b:nuIndex+1
+  if b:nuIndex>=2 | let b:nuIndex=0 | endif
+  if b:nuIndex==0
+    set nornu nonu
+  else
+    set rnu nu
+  endif
+endfunction
+
+let g:toggleOverLineHighlight = 0
+function! ToggleOverLineHighlight(...)
+  if a:0 == 1 "toggle
+    let g:toggleOverLineHighlight = 1 - g:toggleOverLineHighlight
+  endif
+
+  if g:toggleOverLineHighlight == 0
+    highlight OverLength ctermbg=darkred guibg=#111111
+    match OverLength /\%80v.*/
+  else
+    match none
+  endif
+endfunction
+autocmd BufEnter * call ToggleOverLineHighlight()
 
 set statusline=%=%P\ %f\ %m
+set showcmd
 set fillchars=vert:\ ,stl:\ ,stlnc:\
 set laststatus=2
 set noshowmode
+
+highlight OverLength ctermbg=darkred ctermfg=white guibg=#FFD9D9
+match OverLength /\%80v.*/
 
 "I hate not seeing tabs and trailing spaces
 set listchars=tab:>-,trail:-
@@ -51,7 +91,7 @@ set backspace=indent,eol,start
 set whichwrap+=<,>,h,l,[,]
 
 "I hate it when you enter append or insert mode and your cursor moves
-"relative to character you started from
+" relative to character you started from... Like why? What's the point?!
 au InsertLeave * call cursor([getpos('.')[1], getpos('.')[2]+1])
 
 "I hate it when people have .swp files everywhere
@@ -61,22 +101,43 @@ au InsertLeave * call cursor([getpos('.')[1], getpos('.')[2]+1])
 set backupdir=~/.vim/backup/
 set directory=~/.vim/backup/
 
+" Do something real.
 set background=dark
 
-"  if you are feeling really fancy
-"  https://github.com/morhetz/gruvbox
+" Run a line that you wrote as a shell command.
+nnoremap Q !!sh<CR>
+
+" Snippet Plugins are dumb let's do something about that.
+nnoremap ,test :-1read ~/templates/test<CR>
+
+" if you are feeling really fancy
+" https://github.com/morhetz/gruvbox
+
 " Install vim-plug if it does not exist on your machine
+" One might find a curl execution in a vimrc onerous.
+" One mught also mind their own business
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
+" Plugins if you feel particularly adventurous.
+" I try to keep these minimal. May the Home-Row of vim plugins Popeiness
+" Forgive me
 call plug#begin('~/.vim/plugged')
 Plug 'morhetz/gruvbox'
 Plug 'maralla/completor.vim'
+Plug 'vimwiki/vimwiki'
+Plug 'tpope/vim-vinegar'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
 call plug#end()
 
+" Colorscheme stuffs
 colorscheme gruvbox
 let g:gruvbox_contrast_dark = 'hard'
 syntax on
+
+" VimWiki settings
+let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
