@@ -1,0 +1,268 @@
+"________________________________________________________________
+"           __    _     __    __     _                 _
+"     _____/ /_  (_)___/ /___/ /_  _( )_____    _   __(_)___ ___
+"    / ___/ __ \/ / __  / __  / / / /// ___/   | | / / / __ `__ \
+"   (__  ) / / / / /_/ / /_/ / /_/ / (__  )   _| |/ / / / / / / /
+"  /____/_/ /_/_/\__,_/\__,_/\__, / /____/   (_)___/_/_/ /_/ /_/
+"                           /____/
+"________________________________________________________________
+
+
+
+"_______________________________________
+"   ____ ____ ___ ___ _ _  _ ____ ____
+"   [__  |___  |   |  | |\ | | __ [__
+"   ___] |___  |   |  | | \| |__] ___]
+"_______________________________________
+
+" This makes Vim work better rather than gimping it to vi's standards
+set nocompatible
+
+"filetype detection. This is kinda a plugin, but it's in vim by default so
+"¯\(ツ)/¯"
+filetype plugin on
+
+" Do syntax color coating
+syntax on
+
+" This makes ambiguous searches tab completable
+set wildmenu
+
+"This will only search case senstive when provided capitals in a search
+set ignorecase
+set smartcase
+set hls
+
+" I like tabs as 4 spaces when not in paste mode.
+set tabstop=4
+set shiftwidth=4
+set expandtab
+
+" Show line numbers on the side of the screen
+set number
+" Show relative line numbers from your current line. Good for yanking
+set relativenumber
+
+" I set the statusline top
+set statusline=%=%P\ %f\ %m
+set showcmd
+set fillchars=vert:\ ,stl:\ ,stlnc:\
+set laststatus=2
+set noshowmode
+
+"I hate not seeing tabs and trailing spaces
+set listchars=tab:>-,trail:-
+set list
+
+"I hate it when backspace is weird in vim.
+set backspace=indent,eol,start
+
+"I hate it when I can't use arrow keys at the end of lines."
+set whichwrap+=h,l "<,>,h,l,[,]
+
+"I wanted to break the habit of using the arrow keys."
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP>
+
+"You have to create the backup directory
+set backupdir=~/.vim/backup/
+set directory=~/.vim/backup/
+
+" Do something real.
+set background=dark
+
+"I hate it when you enter append or insert mode and your cursor moves
+" relative to character you started from... Like why? What's the point?!
+" au InsertLeave * call cursor([getpos('.')[1], getpos('.')[2]+1])
+"   *edit* wow additions at the end of lines is hard for macros and forces you
+"   to use the arrow keys like a pleb.
+
+let g:netrw_liststyle = 3
+let g:netrw_sort_sequence = '[\/]$,*'
+let g:netrw_banner = 0
+let g:netrw_winsize = -28
+
+set matchpairs+=<:> 
+
+"_________________________________________
+"   _  _ ____ ___ _  _ ____ _   _ ____
+"   |__| |  |  |  |_/  |___  \_/  [__
+"   |  | |__|  |  | \_ |___   |   ___]
+"_________________________________________
+
+" pressing F2 converts all tabs to spaces
+nnoremap <silent> <F2> :%s/\(^\s*\)\@<=\t/    /g<CR>
+
+" pressing F3 stops the hellish autoindenting shit when pasting
+set pastetoggle=<F3>
+
+" pressing F4 to toggle numbers
+noremap <silent> <F4> :call ToggleNu()<CR>
+
+
+" It would be nice if I could just copy the current line to host's buffer
+" When on linux you can use 'xsel --clipboard --input' rather than pbcopy :)
+"    assuming you have X installed.
+noremap <F5> !! pbcopy<CR> u
+
+
+" I don't personally like wordwrap or colorcolumn. This highlights characters
+" at and after overlinenum with the color in overlinecolor
+let g:overlinenum=80
+let g:overlinebg=16
+" normally colors are 1-15 but 16 is #000 which is nice for me"
+" More colors: http://vim.wikia.com/wiki/View_all_colors_available_to_gvim
+noremap <silent> <F6> :call ToggleOverLineHighlight()<CR>
+
+
+" I want to be able to strip all whitespaces from the end of lines
+nnoremap <F7> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
+inoremap <F7> <Esc>:let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>i
+
+
+" Experimental thing to take unordered list and make nice wiki things
+nnoremap <F8> :call MakeTOC()<CR>
+
+" Insert date
+"nmap _ i<C-R>=strftime("%b %d %Y %p")<CR><Esc>
+
+" underline with '_'s the previous line
+nmap _ yypVr_
+
+" Run a line that you wrote as a shell command.
+nnoremap Q !!sh<CR>
+
+" Snippet Plugins are dumb let's do something about that.
+nnoremap ,pypr :-1read ~/templates/pypr<CR>
+
+"________________________________________________
+"    ____ _  _ _  _ ____ ___ _ ____ _  _ ____
+"    |___ |  | |\ | |     |  | |  | |\ | [__
+"    |    |__| | \| |___  |  | |__| | \| ___]
+"________________________________________________
+
+let g:nuIndex=1
+function! ToggleNu()
+  let g:nuIndex=g:nuIndex+1
+  if g:nuIndex>=2 | let g:nuIndex=0 | endif
+  if g:nuIndex==0
+    set nornu nonu
+  else
+    set rnu nu
+  endif
+endfunction
+
+let g:overLineIndex = 1
+function! ToggleOverLineHighlight()
+  let overlineregex= '/\%>' . g:overlinenum . 'v.*/'
+  let g:overLineIndex=g:overLineIndex+1
+  if g:overLineIndex>=2 | let g:overLineIndex=0 | endif
+  if g:overLineIndex == 0
+    execute "highlight OverLength ctermbg=" . g:overlinebg
+    execute "match OverLength " . overlineregex
+  else
+    match none
+  endif
+endfunction
+autocmd BufEnter * call ToggleOverLineHighlight()
+
+function! MakeTOC()
+  "let g:fontTOC = 'smslant'
+
+  "if a:font != <Nul>
+  "  let g:fontTOC = a:font
+
+  execute "normal! 0mqyyGo\<cr>\<cr>\<esc>"
+  execute "normal! p0xx\<esc>yypk0i#\<space>\<esc>"
+  execute "normal! ej0ifiglet -f smslant \<esc>"
+  execute "normal! !!sh \<CR>'q"
+  execute "normal! e"
+  VimwikiFollowLink
+  execute "normal! 0f(a#\<esc>0"
+  echom "Psh!"
+
+endfunction
+
+function! SetTabs(n)
+    set tabstop=a:n
+    set shiftwidth=str2nr(a:n)
+endfunction
+
+"_______________________________________
+"    ___  _    _  _ ____ _ _  _ ____
+"    |__] |    |  | | __ | |\ | [__
+"    |    |___ |__| |__] | | \| ___]
+"_______________________________________
+
+
+" This will install vim-plug if it does not exist on your machine
+" One might find a curl execution in a vimrc onerous.
+" One mught also mind their own business Deborah.
+
+"if empty(glob('~/.vim/autoload/plug.vim'))
+"  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+"    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+"  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+"endif
+
+" Plugins if you feel particularly adventurous.
+" I try to keep these minimal. May the Home-Row of vim plugins Popeiness
+" Forgive me
+call plug#begin('~/.vim/plugged')
+Plug 'morhetz/gruvbox' 
+Plug 'vimwiki/vimwiki'
+Plug 'w0rp/ale'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
+Plug 'terryma/vim-multiple-cursors'
+call plug#end()
+
+"gruvbox does color coding
+"vimwiki is a little markdown wiki I use
+"ale allows for in-editor syntax updates from elm
+"vim-commentary allows for commenting out code by filetype
+"vim-surround helps surround things like sentences with " or ( or even {
+" vim-multiple-cursors does sublime-text like multi cursors with 
+
+" Ale requires you to have the cli tools of the linters. Here are the ones
+" that I use:
+"
+"   PYTHON
+"   * flake8 (pip)
+"
+"   MARKDOWN
+"   * markdownlint-cli (npm)
+"
+"   VIM
+"   * vint (pip)
+"
+"   BASH
+"   * shellcheck (package-manager)
+"
+"   YAML
+"   * yamllint (package-manager)
+"   * swaglint (npm)
+"
+"   ENGRISH
+"   alex (npm)
+"
+"   JSON
+"   fixjson (npm)
+"
+"   DOCKER
+"   hadolint (package-manager
+let b:ale_fix_on_save = 1
+let g:ale_sign_error = '✖✖'
+let g:ale_sign_info = '✚✚'
+let g:ale_sign_warning = '✚✚'
+" let g:ale_linter_aliases = {'tmpl': 'yaml', 'vimwiki': 'markdown'}
+" let g:ale_linters = {'tmpl': ['yamllint', 'swaglint']}
+
+" Colorscheme stuffs
+colorscheme gruvbox
+let g:gruvbox_contrast_dark = 'hard'
+
+" VimWiki settings
+let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
