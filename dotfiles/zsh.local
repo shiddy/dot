@@ -16,3 +16,9 @@ if ! [ -z $TMUX ]; then
 
     tmux set -g status-style "bg=#847fc2"
 fi
+
+_tmux_send_keys_all_panes_ () {
+  for _pane in $(tmux list-panes -F '#P'); do
+    tmux send-keys -t ${_pane} "$@"
+  done
+}
