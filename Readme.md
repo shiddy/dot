@@ -25,6 +25,7 @@ to get started on a freshy do:
 **MacOS Note**
 If you are using the default terminal, you will have to update the keybindings under your profile to contain the modifier keys for tmux hotkeys to function as expected. I.E.
 
+```
 Shift + Cursor Up     \033[1;2A
 Shift + Cursor Down   \033[1;2B
 Shift + Cursor Right  \033[1;2C
@@ -34,3 +35,4 @@ Mod   + Cursor Up     \033[1;3A
 Mod   + Cursor Down   \033[1;3B
 Mod   + Cursor Right  \033[1;3C
 Mod   + Cursor Left   \033[1;3D
+```
