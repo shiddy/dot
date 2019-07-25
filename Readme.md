@@ -6,12 +6,6 @@
   <h1>Shiddy's DawtFayels</h1>
 </div>
 
-check the
-
-    dotdrop.sh --help
-
-I have color stuffs that should be dropped in ~/.color
-
 to get started on a freshy do:
 
     echo "I am a bad kid and I paste things from the internet into my terminal"
@@ -21,6 +15,10 @@ to get started on a freshy do:
     cd dot
     ./dotdrop.sh install -p battlestation
     echo "do ur culurs nahw"
+
+
+I have color stuffs that should be dropped in ~/.color if you are of the colorful variety.
+
 
 **MacOS Note**
 If you are using the default terminal, you will have to update the keybindings under your profile to contain the modifier keys for tmux hotkeys to function as expected. I.E.
