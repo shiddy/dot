@@ -1,143 +1,263 @@
-set nocompatible              " be iMproved, required
-filetype on                   "this is dumb but needed
-filetype off                  " required
+"________________________________________________________________
+"           __    _     __    __     _                 _
+"     _____/ /_  (_)___/ /___/ /_  _( )_____    _   __(_)___ ___
+"    / ___/ __ \/ / __  / __  / / / /// ___/   | | / / / __ `__ \
+"   (__  ) / / / / /_/ / /_/ / /_/ / (__  )   _| |/ / / / / / / /
+"  /____/_/ /_/_/\__,_/\__,_/\__, / /____/   (_)___/_/_/ /_/ /_/
+"                           /____/
+"________________________________________________________________
 
-hi vertsplit ctermfg=238 ctermbg=235
-hi LineNr ctermfg=237
-hi StatusLine ctermfg=235 ctermbg=245
-hi StatusLineNC ctermfg=235 ctermbg=237
-hi Search ctermbg=58 ctermfg=15
-hi Default ctermfg=1
-hi clear SignColumn
-hi SignColumn ctermbg=235
-hi GitGutterAdd ctermbg=235 ctermfg=245
-hi GitGutterChange ctermbg=235 ctermfg=245
-hi GitGutterDelete ctermbg=235 ctermfg=245
-hi GitGutterChangeDelete ctermbg=235 ctermfg=245
-hi EndOfBuffer ctermfg=237 ctermbg=235
 
-set path+=**
+
+"_______________________________________
+"   ____ ____ ___ ___ _ _  _ ____ ____
+"   [__  |___  |   |  | |\ | | __ [__
+"   ___] |___  |   |  | | \| |__] ___]
+"_______________________________________
+
+" This makes Vim work better rather than gimping it to vi's standards
+set nocompatible
+
+"filetype detection. This is kinda a plugin, but it's in vim by default so
+"¯\(ツ)/¯"
+filetype plugin on
+
+" Do syntax color coating
+syntax on
+
+" This makes ambiguous searches tab completable
 set wildmenu
 
-"This will only search case senstive when provided capitols
+"This will only search case senstive when provided capitals in a search
+set ignorecase
 set smartcase
 set hls
 
 " I like tabs as 4 spaces when not in paste mode.
 set tabstop=4
-set softtabstop=4
 set shiftwidth=4
 set expandtab
 
-" pressing F3 stops the hellish autoindenting shit when pasting
-set pastetoggle=<F3>
+" Show line numbers on the side of the screen
+set number
 
-set number "this can be done with nu
-set relativenumber "this can be done with rnu
-" pressing F4 to toggle lines for copying lines
-nmap <silent> <F4> :call ToggleNu()<CR>
-
-" It would be nice if I could just copy the current line to my buffer
-nnoremap <F5> !! pbcopy<CR> u
-
-" wordwrap is silly, let's just set a reasonable indicator when we are at 79
-" characters
-map <silent> <F6> :call ToggleOverLineHighlight(1)<CR>
-
-
-let b:nuIndex=1
-function! ToggleNu()
-  let b:nuIndex=b:nuIndex+1
-  if b:nuIndex>=2 | let b:nuIndex=0 | endif
-  if b:nuIndex==0
-    set nornu nonu
-  else
-    set rnu nu
-  endif
-endfunction
-
-let g:toggleOverLineHighlight = 0
-function! ToggleOverLineHighlight(...)
-  if a:0 == 1 "toggle
-    let g:toggleOverLineHighlight = 1 - g:toggleOverLineHighlight
-  endif
-
-  if g:toggleOverLineHighlight == 0
-    highlight OverLength ctermbg=darkred guibg=#111111
-    match OverLength /\%80v.*/
-  else
-    match none
-  endif
-endfunction
-autocmd BufEnter * call ToggleOverLineHighlight()
-
+"statusline stuff
 set statusline=%=%P\ %f\ %m
 set showcmd
 set fillchars=vert:\ ,stl:\ ,stlnc:\
 set laststatus=2
 set noshowmode
 
-highlight OverLength ctermbg=darkred ctermfg=white guibg=#FFD9D9
-match OverLength /\%80v.*/
-
 "I hate not seeing tabs and trailing spaces
 set listchars=tab:>-,trail:-
 set list
 
+"I hate not having the creater-thans not match like brackets
+set matchpairs+=<:>
+
 "I hate it when backspace is weird in vim.
 set backspace=indent,eol,start
 
-"I hate it when I can't use arrow keys at the end of lines."
-set whichwrap+=<,>,h,l,[,]
+"I hate it when I can't use movement keys at the end and beginning of lines."
+set whichwrap+=h,l "<,>,h,l,[,]
 
-"I hate it when you enter append or insert mode and your cursor moves
-" relative to character you started from... Like why? What's the point?!
-au InsertLeave * call cursor([getpos('.')[1], getpos('.')[2]+1])
+"I wanted to break the habit of using the arrow keys."
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP>
 
-"I hate it when people have .swp files everywhere
-"Let's put those in a single place
-
-"You have to create the backup directory
+"You have to create the backup directory but this keeps your backups in a
+"single place on your filesystem, so you don't have to ignore all the .swp
+"files in your version control software.
 set backupdir=~/.vim/backup/
 set directory=~/.vim/backup/
 
-" Do something real.
+" Do something real. Get a real editor
 set background=dark
 
-" Run a line that you wrote as a shell command.
+"I hate it when you enter append or insert mode and your cursor moves
+" relative to character you started from... Like why? What's the point?!
+" au InsertLeave * call cursor([getpos('.')[1], getpos('.')[2]+1])
+
+"   *edit* wow additions at the end of lines is hard for macros, and this
+"   forces you to use the arrow keys after inserting like a pleb. It's
+"   almost like there was a reason that this was a thing in the first place
+
+let g:netrw_liststyle = 3
+let g:netrw_sort_sequence = '[\/]$,*'
+let g:netrw_banner = 0
+let g:netrw_winsize = -28
+
+
+"_________________________________________
+"   _  _ ____ ___ _  _ ____ _   _ ____
+"   |__| |  |  |  |_/  |___  \_/  [__
+"   |  | |__|  |  | \_ |___   |   ___]
+"_________________________________________
+
+" pressing F2 converts all tabs to spaces
+nnoremap <silent> <F2> :%s/\(^\s*\)\@<=\t/    /g<CR>
+
+" pressing F3 stops the hellish autoindenting shit when pasting
+set pastetoggle=<F3>
+
+" pressing F4 to toggle numbers, this can be helpful for copying in weird
+" terminals
+noremap <silent> <F4> :call ToggleNu()<CR>
+
+" It would be nice if I could just copy the current line to host's buffer
+" **When on linux you can use 'xsel --clipboard --input' rather than pbcopy
+"    assuming you have X installed.**
+noremap <F5> !! pbcopy<CR> u
+
+
+" I don't personally like wordwrap or colorcolumn. This highlights characters
+" at and after overlinenum with the color in overlinecolor
+let g:overlinenum=80
+let g:overlinebg=16
+" normally colors are 1-15 but 16 is #000 which is nice for me"
+" More colors: http://vim.wikia.com/wiki/View_all_colors_available_to_gvim
+noremap <silent> <F6> :call ToggleOverLineHighlight()<CR>
+
+" I want to be able to strip all whitespaces from the end of lines
+nnoremap <F7> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
+inoremap <F7> <Esc>:let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>i
+
+" Thing I use to take an unordered list and make nice wiki things
+"nnoremap <F8> :call MakeTOC()<CR>
+
+" Insert date
+"nmap _ i<C-R>=strftime("%b %d %Y %p")<CR><Esc>
+
+" underline with '_'s the previous line for headers in zines
+"nmap _ yypVr_
+
+" Run a line that you wrote as a shell command. Danger Danger, we do dumb
 nnoremap Q !!sh<CR>
 
-" Snippet Plugins are dumb let's do something about that.
-nnoremap ,test :-1read ~/templates/test<CR>
+" Adding a whole plugin for a snippet is total dorby move. This makes it so
+" you can just define a snippet as something starting with a comma and have it
+" read from a ~/templates/* directory.
+nnoremap ,pypr :-1read ~/templates/pypr<CR>
 
-" if you are feeling really fancy
-" https://github.com/morhetz/gruvbox
+"________________________________________________
+"    ____ _  _ _  _ ____ ___ _ ____ _  _ ____
+"    |___ |  | |\ | |     |  | |  | |\ | [__
+"    |    |__| | \| |___  |  | |__| | \| ___]
+"________________________________________________
 
-" Install vim-plug if it does not exist on your machine
+let g:nuIndex=1
+function! ToggleNu()
+  let g:nuIndex=g:nuIndex+1
+  if g:nuIndex>=2 | let g:nuIndex=0 | endif
+  if g:nuIndex==0
+    set nonu
+  else
+    set nu
+  endif
+endfunction
+
+let g:overLineIndex = 1
+function! ToggleOverLineHighlight()
+  let overlineregex= '/\%>' . g:overlinenum . 'v.*/'
+  let g:overLineIndex=g:overLineIndex+1
+  if g:overLineIndex>=2 | let g:overLineIndex=0 | endif
+  if g:overLineIndex == 0
+    execute "highlight OverLength ctermbg=" . g:overlinebg
+    execute "match OverLength " . overlineregex
+  else
+    match none
+  endif
+endfunction
+autocmd BufEnter * call ToggleOverLineHighlight()
+
+function! MakeTOC()
+  "let g:fontTOC = 'smslant'
+
+  "if a:font != <Nul>
+  "  let g:fontTOC = a:font
+
+  execute "normal! 0mqyyGo\<cr>\<cr>\<esc>"
+  execute "normal! p0xx\<esc>yypk0i#\<space>\<esc>"
+  execute "normal! ej0ifiglet -f smslant \<esc>"
+  execute "normal! !!sh \<CR>'q"
+  execute "normal! e"
+  VimwikiFollowLink
+  execute "normal! 0f(a#\<esc>0"
+  echom "Psh!"
+
+endfunction
+
+function! SetTabs(n)
+    set tabstop=a:n
+    set shiftwidth=str2nr(a:n)
+endfunction
+
+"_______________________________________
+"    ___  _    _  _ ____ _ _  _ ____
+"    |__] |    |  | | __ | |\ | [__
+"    |    |___ |__| |__] | | \| ___]
+"_______________________________________
+
+
+" This will install vim-plug if it does not exist on your machine
 " One might find a curl execution in a vimrc onerous.
-" One mught also mind their own business
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
+" One might also mind their own damned business Deborah.
+
+"if empty(glob('~/.vim/autoload/plug.vim'))
+"  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+"    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+"  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+"endif
 
 " Plugins if you feel particularly adventurous.
 " I try to keep these minimal. May the Home-Row of vim plugins Popeiness
 " Forgive me
 call plug#begin('~/.vim/plugged')
-Plug 'morhetz/gruvbox'
-Plug 'maralla/completor.vim'
-Plug 'vimwiki/vimwiki'
-Plug 'tpope/vim-vinegar'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-surround'
+Plug 'morhetz/gruvbox'       " color
+Plug 'vimwiki/vimwiki'       " wiki stuff
+Plug 'w0rp/ale'              " syntax colors
+Plug 'tpope/vim-commentary'  " comment out things with hotkeys
 call plug#end()
+
+" Ale requires you to have the cli tools of the linters. Here are the ones
+" that I use:
+"
+"   PYTHON
+"   * flake8 (pip)
+"
+"   MARKDOWN
+"   * markdownlint-cli (npm)
+"
+"   VIM
+"   * vint (pip)
+"
+"   BASH
+"   * shellcheck (package-manager)
+"
+"   YAML
+"   * yamllint (package-manager)
+"   * swaglint (npm)
+"
+"   ENGRISH
+"   alex (npm)
+"
+"   JSON
+"   fixjson (npm)
+"
+"   DOCKER
+"   hadolint (package-manager
+let b:ale_fix_on_save = 1
+let g:ale_sign_error = '✖✖'
+let g:ale_sign_info = '✚✚'
+let g:ale_sign_warning = '✚✚'
+" let g:ale_linter_aliases = {'tmpl': 'yaml', 'vimwiki': 'markdown'}
+" let g:ale_linters = {'tmpl': ['yamllint', 'swaglint']}
 
 " Colorscheme stuffs
 colorscheme gruvbox
 let g:gruvbox_contrast_dark = 'hard'
-syntax on
 
 " VimWiki settings
 let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
