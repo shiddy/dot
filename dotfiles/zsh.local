@@ -1,0 +1,18 @@
+# Some common things that I do that I don't think would be great for the default zshconfig
+
+export HOMEBREW_NO_AUTO_UPDATE=1
+export HOMEBREW_NO_ANALYTICS=1
+
+alias oops='echo "$(date)" "$@" >> ~/oops.txt'
+
+if ! [ -z $TMUX ]; then
+    sess=$(tmux ls | grep "(attached)" | cut -d":" -f1)
+    if ! [[ $sess == LOCAL* ]]; then
+        tmux rename-session "LOCAL-#S"
+    fi
+
+    tmux set-window-option -g window-status-style "fg=#6058c1"
+    tmux set -g pane-active-border-style "bg=#847fc2,fg=#847fc2"
+
+    tmux set -g status-style "bg=#847fc2"
+fi
