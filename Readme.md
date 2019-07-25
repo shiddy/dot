@@ -13,9 +13,7 @@ to get started on a freshy do:
     echo "Who knows what that could contain? ¯\_(ツ)_/¯"
     git clone git@github.com:shiddy/dot.git
     cd dot
-    ./dotdrop.sh install -p battlestation
-    echo "do ur culurs nahw"
-
+    echo "get to moving these fellers..."
 
 I have color stuffs that should be dropped in ~/.color if you are of the colorful variety.
 
