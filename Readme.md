@@ -1,16 +1,24 @@
-<div align="center">
-  <a href="https://github.com/posquit0/dotfiles" title="Shiddy's DawtFayels">
-    <img alt="Shiddy's dotfiles" src="https://raw.githubusercontent.com/shiddy/dot/master/dawtimg.png?token=ADq2K9r11OARwOZ-caLO-FfmzlH-MvUZks5bNTOdwA%3D%3D"/>
-  </a>
-  <br/>
-  <h1>Shiddy's DawtFayels</h1>
-</div>
+# Shiddy's DawtFayels
 
-to get started on a freshy do:
+I started to use dotdrop to do the moving of the dotfiles
+from this repo to their respective locations within my host OS.
+
+This requires the use of submodules within this repo as well as some other
+tools on the system; namely python3 & pip3
+
+to get started on a fresh box do:
 
     git clone git@github.com:shiddy/dot.git
     cd dot
-    echo "get to moving these fellers..."
+    git submodule update --init
+    pip3 install --user -r dotdrop/requirements.txt
+
+    echo "please run one of the following: "
+    echo "   ./dotdrop.sh -p linux install"
+    echo "   ./dotdrop.sh -p macos install"
+
+    echo "\n I also recommend installing bash-completion if you have not already done so"
+
 
 I have color stuff that should be dropped in ~/.color if you are of the colorful variety.
 
