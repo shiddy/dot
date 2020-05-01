@@ -8,15 +8,11 @@
 
 to get started on a freshy do:
 
-    echo "I am a bad kid and I paste things from the internet into my terminal"
-    sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
-    echo "Who knows what that could contain? ¯\_(ツ)_/¯"
     git clone git@github.com:shiddy/dot.git
     cd dot
     echo "get to moving these fellers..."
 
-I have color stuffs that should be dropped in ~/.color if you are of the colorful variety.
-
+I have color stuff that should be dropped in ~/.color if you are of the colorful variety.
 
 **MacOS Note**
 If you are using the default terminal, you will have to update the keybindings under your profile to contain the modifier keys for tmux hotkeys to function as expected. I.E.
