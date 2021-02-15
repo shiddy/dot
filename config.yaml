@@ -5,14 +5,6 @@ config:
   dotpath: dotfiles
   keepdot: true
 dotfiles:
-  f_vimrc:
-    src: vimrc
-    dst: ~/.vimrc
-    link: link
-  f_tmux.conf:
-    src: tmux.conf
-    dst: ~/.tmux.conf
-    link: link
   f_bash_profile:
     src: .bash_profile
     dst: ~/.bash_profile
@@ -21,16 +13,22 @@ dotfiles:
     src: .bash_profile.local
     dst: ~/.bash_profile.local
     link: link
+  f_zshrc:
+    src: .zshrc
+    dst: ~/.zshrc
+  f_zshrc_local:
+    src: .zshrc_local
+    dst: ~/.zshrc_local
+  f_init.vim:
+    src: .config/nvim/init.vim
+    dst: ~/.config/nvim/init.vim
+  f_tmux.conf:
+    src: .tmux.conf
+    dst: ~/.tmux.conf
 profiles:
-  linux:
+  zsh-neovim:
     dotfiles:
-    - f_vimrc
+    - f_zshrc
+    - f_zshrc_local
+    - f_init.vim
     - f_tmux.conf
-    - f_bash_profile
-    - f_bash_profile.local
-  macos:
-    dotfiles:
-    - f_vimrc
-    - f_tmux.conf
-    - f_bash_profile
-    - f_bash_profile.local

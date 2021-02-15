@@ -1,0 +1,44 @@
+config:
+  backup: true
+  banner: false
+  create: true
+  dotpath: dotfiles
+  keepdot: true
+dotfiles:
+  f_neovimrc:
+    src: init.vim
+    dst: ~/.config/nvim/init.vim
+    link: link
+  f_tmux.conf:
+    src: tmux.conf
+    dst: ~/.tmux.conf
+    link: link
+  f_bash_profile:
+    src: .bash_profile
+    dst: ~/.bash_profile
+    link: link
+  f_bash_profile.local:
+    src: .bash_profile.local
+    dst: ~/.bash_profile.local
+    link: link
+  f_zsh_profile:
+    src: .zshrc
+    dst: ~/.zshrc
+    link: link
+  f_zsh_profile.local:
+    src: .zshrc.local
+    dst: ~/.zshrc
+    link: link
+profiles:
+  linux-bash:
+    dotfiles:
+      - f_vimrc
+      - f_tmux.conf
+      - f_bash_profile
+      - f_bash_profile.local
+  linux-zsh:
+    dotfiles:
+      - f_vimrc
+      - f_tmux.conf
+      - f_zsh_profile
+      - f_bash_profile.local

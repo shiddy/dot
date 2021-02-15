@@ -1,18 +1,14 @@
-# user bins I put in ~/bin
+# User bins I put in ~/bin
 export PATH="$PATH:$HOME/bin"
 
-# Aliases are always super personal, it helps to put them in their own place
-if [ -f "$HOME/.bash_aliases" ]; then
-    source "$HOME/.bash_aliases"
-fi
-
-# I keep this .local version to keep cruft like additional $PATH changes 
-# or cloud util changes from being added into git tracking
+# Local is where I put aliases that are very common to me, and generally things
+# that I don't mind having pushed to github
 if [ -f "$HOME/.bash_profile.local"]; then
     source "$HOME/.bash_profile.local"
 fi
 
-# Sometimes you want to run tmux on a new terminal start
-if command -v tmux>/dev/null; then
-  [[ ! $TERM =~ screen ]] && [ -z $TMUX ] && exec tmux
+# Private is configuration of environments that I specificially DO NOT want pushed
+# to github
+if [ -f "$HOME/.bash_profile.local"]; then
+    source "$HOME/.bash_profile.local"
 fi
