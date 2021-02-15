@@ -26,13 +26,13 @@ dotfiles:
     src: .tmux.conf
     dst: ~/.tmux.conf
 profiles:
-  zsh-neovim:
+  zsh_neovim:
     dotfiles:
     - f_zshrc
     - f_zshrc_local
     - f_init.vim
     - f_tmux.conf
-  bash-neovim:
+  bash_neovim:
     dotfiles:
     - f_bash_profile
     - f_bash_profile.local

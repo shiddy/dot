@@ -14,7 +14,7 @@ to get started on a fresh box do:
     python3 -m venv venv
     source venv/bin/activate
     pip3 install -r dotdrop/requirements.txt
-    ln -s dotdrop/dotdrop.sh dotdrop.sh
+    cp dotdrop/dotdrop.sh dotdrop.sh
 
 
     echo "please run one of the following: "
