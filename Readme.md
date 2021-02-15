@@ -13,7 +13,7 @@ to get started on a fresh box do:
     git submodule update --init
     python3 -m venv venv
     source venv/bin/activate
-    pip3 install --user -r dotdrop/requirements.txt
+    pip3 install -r dotdrop/requirements.txt
     ln -s dotdrop/dotdrop.sh dotdrop.sh
 
 
