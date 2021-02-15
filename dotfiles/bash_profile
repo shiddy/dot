@@ -3,12 +3,12 @@ export PATH="$PATH:$HOME/bin"
 
 # Local is where I put aliases that are very common to me, and generally things
 # that I don't mind having pushed to github
-if [ -f "$HOME/.bash_profile.local"]; then
+if [ -f "$HOME/.bash_profile.local" ]; then
     source "$HOME/.bash_profile.local"
 fi
 
 # Private is configuration of environments that I specificially DO NOT want pushed
 # to github
-if [ -f "$HOME/.bash_profile.local"]; then
+if [ -f "$HOME/.bash_profile.local" ]; then
     source "$HOME/.bash_profile.local"
 fi
