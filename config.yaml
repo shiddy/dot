@@ -32,3 +32,9 @@ profiles:
     - f_zshrc_local
     - f_init.vim
     - f_tmux.conf
+  bash-neovim:
+    dotfiles:
+    - f_bash_profile
+    - f_bash_profile.local
+    - f_init.vim
+    - f_tmux.conf
