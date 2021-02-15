@@ -11,18 +11,28 @@ to get started on a fresh box do:
     git clone git@github.com:shiddy/dot.git
     cd dot
     git submodule update --init
+    python3 -m venv venv
+    source venv/bin/activate
     pip3 install --user -r dotdrop/requirements.txt
+    ln -s dotdrop/dotdrop.sh dotdrop.sh
+
 
     echo "please run one of the following: "
-    echo "   ./dotdrop.sh -p linux install"
-    echo "   ./dotdrop.sh -p macos install"
+    echo "   ./dotdrop.sh -p zsh-neovim install"
 
     echo "\n I also recommend installing bash-completion if you have not already done so"
 
 
+If changes are made to your local dotfiles, you can import them into the apropriate profile with
+
+    ./dotdrop.sh -p zsh-neovim import ~/.zshrc
+
 I have color stuff that should be dropped in ~/.color if you are of the colorful variety.
 
 **MacOS Note**
+
+If you want to run dotdrop on macos you will have to `brew install coreutils` for `realpath` to function
+
 If you are using the default terminal, you will have to update the keybindings under your profile to contain the modifier keys for tmux hotkeys to function as expected. I.E.
 
 ```
