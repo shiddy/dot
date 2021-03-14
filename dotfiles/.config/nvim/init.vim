@@ -73,8 +73,11 @@ let mapleader=" "
 "the one you are currently in"
 noremap <Leader>o :only<CR>
 
-"Pressing the leader key (defined above) and q will save and quit
-noremap <Leader>q :wq<CR>
+"Pressing the leader key (defined above) and e will save and quit
+noremap <Leader>e :wq<CR>
+
+"Pressing the leader key (defined above) and q will quit
+noremap <Leader>q :q<CR>
 
 "Pressing the leader key (defined above) and w will save
 noremap <Leader>w :w<CR>
@@ -87,11 +90,15 @@ nmap <silent> <c-l> :wincmd l<CR>
 
 " I don't like .swp files everywhere, so I just put them in the vim directory
 " This environment variable is defined within my shell's runcommand file
-set backupdir=${VIMSWAPDIR}
-set directory=${VIMSWAPDIR}
 
-" My eyes hurt all the time now.
-set background=dark
+" let vimbackupdir=$VIMSWAPDIR
+set backupdir=~/.config/nvim/backups
+set directory=~/.config/nvim/backups
+
+" set background=dark
+set t_Co=256   " This is may or may not needed.
+set background=light
+colorscheme kalahari
 
 " move through buffers with Ctrl+Alt+j and Ctrl+Alt+k
 noremap <C-A-j> :bprev<CR>
@@ -101,12 +108,19 @@ noremap <C-A-k> :bnext<CR>
 " nnoremap gp :bprev<CR>
 " nnoremap gn :bnext<CR>
 
-" netrw is the default file manager for vim. Here are some sane settings"
-let g:netrw_winsize = -28
-let g:netrw_sort_sequence = '[\/]$,*'
-let g:netrw_banner = 0
-let g:netrw_liststyle = 3
+" updating windows with the CTRL+W + stuff is a pain, so I just use the mouse
+" for that
+:set mouse=a
 
+" netrw is the default file manager for vim. Here are some sane settings"
+" let g:netrw_winsize = -28
+" let g:netrw_sort_sequence = '[\/]$,*'
+" let g:netrw_banner = 0  " Don't show the banner
+" let g:netrw_preview=1
+" let g:netrw_liststyle = 3
+
+" " make netrw not open more buffers
+" au FileType netrw setl bufhidden=wipe
 
 "_________________________________________
 "   _  _ ____ ___ _  _ ____ _   _ ____
@@ -123,13 +137,19 @@ set pastetoggle=<F3>
 
 " pressing F4 to toggle numbers, this can be helpful for copying in a pinch
 noremap <silent> <F4> :call ToggleNu()<CR>
+" nmap <silent><F4> :set nu!<CR>
+
+noremap <silent> <F5> :AsyncRun -cwd=$(VIM_ROOT) -save=1 -raw ./run.sh<CR>
+
+noremap <silent> <F6> :AsyncRun -cwd=$(VIM_ROOT) -save=1 -raw ./test.sh<CR>
+
+noremap <silent> <F13> :call Colorize_Async() <CR>
 
 " It would be nice if I could just copy the current line to host's buffer
 " **When on linux you can use 'xsel --clipboard --input' rather than pbcopy
 "    assuming you have X installed.**
 " noremap <F5> !! pbcopy<CR> u
-noremap <F5> !! xsel --clipboard --input<CR> u
-
+" noremap <F5> !! xsel --clipboard --input<CR> u
 
 " " I don't personally like wordwrap or colorcolumn. This will change the
 " " background of characters at and after overlinenum with the color in
@@ -138,18 +158,21 @@ noremap <F5> !! xsel --clipboard --input<CR> u
 " let g:overlinebg=16
 " " normally colors are 1-15 but 16 is #000 which is nice for me"
 " " More colors: http://vim.wikia.com/wiki/View_all_colors_available_to_gvim
-noremap <silent> <F6> :call ToggleOverLineHighlight()<CR>
+" noremap <silent> <F6> :call ToggleOverLineHighlight()<CR>
 
-hi ColorColumn ctermbg=lightgrey guibg=lightgrey
-nnoremap <silent> <F6> :execute "set colorcolumn="
-                  \ . (&colorcolumn == "" ? "80" : "")<CR>
+" hi ColorColumn ctermbg=lightgrey guibg=lightgrey
+" nnoremap <silent> <F6> :execute "set colorcolumn="
+"                   \ . (&colorcolumn == "" ? "80" : "")<CR>
 
 " I want to be able to strip all whitespaces from the end of lines
 nnoremap <F7> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 inoremap <F7> <Esc>:let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>i
 
-" I want to insert the date when I press F9
-nmap <F9> i<C-R>=strftime("%b %d %Y %p")<CR><Esc>
+" pressing F8 will toggle background from dark to light.
+nmap <silent><F8> :let &bg = (&bg == 'light' ? 'dark' : 'light')<CR>
+
+" i want to insert the date when i press f9
+nmap <F9> i<c-r>=strftime("%b %d %y %p")<CR><ESC>
 
 " I want to underline the line I am on with underscores when I press _
 nmap _ yypVr_
@@ -168,16 +191,32 @@ nmap _ yypVr_
 "    |    |__| | \| |___  |  | |__| | \| ___]
 "________________________________________________
 
-" Toggle numbers
+" Toggle numbers and relative numbers
 let g:nuIndex=1
 function! ToggleNu()
   let g:nuIndex=g:nuIndex+1
-  if g:nuIndex>=2 | let g:nuIndex=0 | endif
+  if g:nuIndex>=4 | let g:nuIndex=0 | endif
   if g:nuIndex==0
-    set nonu
-  else
     set nu
+  elseif g:nuIndex==1
+    set nonu
+  elseif g:nuIndex==2
+    set rnu
+  else
+    set nornu
   endif
+endfunction
+
+
+let g:asyncrun_open = 30
+let g:asyncrun_rootmarks = ['.svn', '.git', '.root', '_darcs']
+
+function Colorize_Async()
+     :wincmd p
+     :sleep 100m
+     :AnsiEsc
+     :sleep 100m
+     :wincmd k
 endfunction
 
 " " Change the background of characters over your specified overlinenum
@@ -221,16 +260,29 @@ endfunction
 "endif
 
 "I try to keep these minimal. Ordered in their relative use to me
-" call plug#begin('${HOME}/.config/nvim/plugged')
-"   Plug 'tpope/vim-commentary'    " Comment out things with hotkeys (gcc to comment)
-"   Plug 'tpope/vim-surround'      " Surround things within nvim (quotes around words)
-"   Plug 'ap/vim-buftabline'       " Show buffers at the top of the screen
-"   Plug 'w0rp/ale'                " Linting plugin (Requires some linters below)
-"   Plug 'tpope/vim-fugitive'      " Git integration in vim buffers
-"   Plug 'airblade/vim-gitgutter'  " Show git diff information in the gutter
-"   Plug 'vim-scripts/DrawIt'      " Draw lines and boxes
+let plugdir="$HOME/.config/nvim/plugged"
+call plug#begin(plugdir)
+  Plug 'tpope/vim-commentary'    " Comment out things with hotkeys (gcc to comment)
+  Plug 'tpope/vim-surround'      " Surround things within nvim (quotes around words)
+  Plug 'ap/vim-buftabline'       " Show buffers at the top of the screen
+  Plug 'w0rp/ale'                " Linting plugin (Requires some linters below)
 
-" call plug#end()
+  " Git Things
+  Plug 'tpope/vim-fugitive'      " Git integration in vim buffers
+  Plug 'airblade/vim-gitgutter'  " Show git diff information in the gutter
+
+  Plug 'terryma/vim-multiple-cursors'
+
+  Plug 'ycm-core/YouCompleteMe'
+  Plug 'SirVer/ultisnips'
+
+  " I do stuff with Ascii art often
+  Plug 'vim-scripts/DrawIt'      " Draw lines and boxes
+
+  " For running things in the the browser
+  Plug 'powerman/vim-plugin-AnsiEsc'
+  Plug 'skywind3000/asyncrun.vim'
+call plug#end()
 
 " "ALE requires you to have the cli tools of the linters. here are the ones
 " "that I have used:
@@ -264,12 +316,31 @@ endfunction
 " Ale configuration for pep
 
 " set the max-line-length to something more reasonable
-" let g:ale_python_flake8_options = '--max-line-length=128'
+let g:ale_python_flake8_options = '--max-line-length=128'
 
 " If you want to ignore the line length (E501) this is what you want
 " The rest of the errors are the defaults for flake8
 " let g:ale_python_flake8_options = '--ignore=E24,E121,E123,E126,E226,E704,W503,W504,E501'
+let g:UltiSnipsExpandTrigger = '<Tab>'
+let g:UltiSnipsJumpForwardTrigger = '<Tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<S-Tab>'
 
+" Prevent UltiSnips from removing our carefully-crafted mappings.
+let g:UltiSnipsMappingsToIgnore = ['autocomplete']
+
+let g:ycm_key_list_select_completion = ['<C-j>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
+let g:ycm_key_list_accept_completion = ['<C-y>', 'Enter']
+
+" Additional UltiSnips config.
+let g:UltiSnipsSnippetsDir = '~/.vim/ultisnips'
+let g:UltiSnipsSnippetDirectories = ['ultisnips']
+
+
+" Additional YouCompleteMe config.
+let g:ycm_complete_in_comments = 1
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
+let g:ycm_seed_identifiers_with_syntax = 1
 
 " "Ale symbols
 " let b:ale_fix_on_save = 1
