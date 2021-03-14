@@ -25,6 +25,12 @@ dotfiles:
   f_tmux.conf:
     src: .tmux.conf
     dst: ~/.tmux.conf
+  f_alacritty.yml:
+    src: .alacritty.yml
+    dst: ~/.alacritty.yml
+  f_alacritty.yml_1:
+    src: .alacritty.yml
+    dst: ~/.alacritty.yml
 profiles:
   zsh_neovim:
     dotfiles:
@@ -32,9 +38,11 @@ profiles:
     - f_zshrc_local
     - f_init.vim
     - f_tmux.conf
+    - f_alacritty.yml
   bash_neovim:
     dotfiles:
     - f_bash_profile
     - f_bash_profile.local
     - f_init.vim
     - f_tmux.conf
+    - f_alacritty.yml_1
