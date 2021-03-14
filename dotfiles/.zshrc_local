@@ -1,12 +1,12 @@
 # make sure that I have a vim backdup directory defined
-if type vim &>/dev/null; then
-    export VIMSWAPDIR="$HOME/.vim/backup"
-elif type nvim &>/dev/null; then
-    export VIMSWAPDIR="$HOME/.config/nvim/backup"
-fi
+# if [[ type vim &>/dev/null]]; then
+#     export VIMSWAPDIR="$HOME/.vim/backup"
+# elif type nvim &>/dev/null; then
+export VIMSWAPDIR="$HOME/.config/nvim/backup"
+# fi
 
-if [[ ! -f "${VIMSWAPDIR}" ]]; then
-    mkdir -p "${VIMSWAPDIR}"
+if [[ ! -f $VIMSWAPDIR ]]; then
+    mkdir -p $VIMSWAPDIR
 fi
 
 
