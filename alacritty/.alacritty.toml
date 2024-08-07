@@ -1,0 +1,32 @@
+[font]
+size = 24.0
+# size = 28.0
+
+[font.normal]
+family = "UbuntuMono Nerd Font"
+
+[window]
+#opacity = 0.95
+decorations = "none"
+
+[cursor.style]
+blinking = "On"
+  # Cursor style
+  #style:
+    # Cursor shape
+    #
+    # Values for `shape`:
+    #   - ▇ Block
+    #   - _ Underline
+    #   - | Beam
+    #shape: Block
+
+    # Cursor blinking state
+    #
+    # Values for `blinking`:
+    #   - Never: Prevent the cursor from ever blinking
+    #   - Off: Disable blinking by default
+    #   - On: Enable blinking by default
+    #   - Always: Force the cursor to always blink
+    #blinking: Off
+
