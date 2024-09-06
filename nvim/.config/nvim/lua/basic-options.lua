@@ -45,7 +45,7 @@ vim.cmd("set expandtab")
 vim.cmd("set tabstop=2")
 vim.cmd("set softtabstop=2")
 vim.cmd("set shiftwidth=2")
-vim.cmd("set shiftround=true")
+-- vim.cmd("set shiftround=true")
 
 -- This allows you to tab complete stuff in various ways. Back before LSPs were a thing and you needed to spawn 4 daemons to edit a text file you could do things like autocomplete text with just <C-p> but hey why not just do everything in lua files... I'm not mad.
 vim.cmd("set wildmenu")
@@ -85,5 +85,6 @@ vim.cmd("set whichwrap+=<,>")
 -- single place on your filesystem, so you don't have to ignore all the .swp
 -- files in your version control software.
 --
+-- XXX This does not work with the tilde, it just makes local files with a tilde
 -- mkdir -p ~/.vim/backup
-vim.opt.backupdir = "~/.config/nvim/.backup/"
+-- vim.opt.backupdir = "~/.config/nvim/.backup/"
