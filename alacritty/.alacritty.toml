@@ -7,7 +7,7 @@ family = "UbuntuMono Nerd Font"
 
 [window]
 #opacity = 0.95
-decorations = "none"
+#decorations = "none"
 
 [cursor.style]
 blinking = "On"
