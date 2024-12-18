@@ -1,9 +1,15 @@
+-- this just makes the keymaps cleaner to read here
+local map = vim.keymap.set
+
 -- Note, a lot of these values I have just copied from my old vimscript stuff. I know I can update most to vim.opt or vim.wo or w/e but I don't want to spend my time editing my editor... leave that to a more bored me.
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
 -- I like to be able to remove a highlighted bit of text with the leader key rather than searching asdf over and over, <leader>h for highlight
-vim.keymap.set("n", "<leader>h", ":nohlsearch<CR>", {})
+map("n", "<leader>h", ":nohlsearch<CR>", {})
+
+-- Testing this out where the default register is not * or + and is instead the system buffer
+vim.opt.clipboard = "unnamedplus"
 
 -- Back in the day I would include this so that I would break my habit of using the arrow keys."
 -- Alas... I now have a crazy split keyboard, and little did I know that the right hand does not lay on the hjkl keys for ergonomics, it lays on the jkl; keys.
@@ -13,16 +19,16 @@ vim.keymap.set("n", "<leader>h", ":nohlsearch<CR>", {})
 -- vim.cmd('noremap <Right> <NOP>')
 
 -- Move through windows with control and movement keys
--- vim.keymap.set('n', '<C-h>', ':wincmd h<CR>')
--- vim.keymap.set('n', '<C-j>', ':wincmd j<CR>')
--- vim.keymap.set('n', '<C-k>', ':wincmd k<CR>')
--- vim.keymap.set('n', '<C-l>', ':wincmd l<CR>')
+-- map('n', '<C-h>', ':wincmd h<CR>')
+-- map('n', '<C-j>', ':wincmd j<CR>')
+-- map('n', '<C-k>', ':wincmd k<CR>')
+-- map('n', '<C-l>', ':wincmd l<CR>')
 --
 -- Move through windows with control and arrow keys
-vim.keymap.set('n', '<C-Left>', ':wincmd h<CR>')
-vim.keymap.set('n', '<C-Down>', ':wincmd j<CR>')
-vim.keymap.set('n', '<C-Up>', ':wincmd k<CR>')
-vim.keymap.set('n', '<C-Right>', ':wincmd l<CR>')
+map('n', '<C-Left>', ':wincmd h<CR>')
+map('n', '<C-Down>', ':wincmd j<CR>')
+map('n', '<C-Up>', ':wincmd k<CR>')
+map('n', '<C-Right>', ':wincmd l<CR>')
 
 -- show a highlight of the line your cursor is on by default
 vim.opt.cursorline = true
@@ -88,3 +94,13 @@ vim.cmd("set whichwrap+=<,>")
 -- XXX This does not work with the tilde, it just makes local files with a tilde
 -- mkdir -p ~/.vim/backup
 -- vim.opt.backupdir = "~/.config/nvim/.backup/"
+
+-- mappings for rust dap
+map("n", "<Leader>db", "<cmd>lua require'dap'.toggle_breakpoint()<CR>", { desc = "Debugger toggle breakpoint"})
+map("n", "<Leader>dl", "<cmd>lua require'dap'.step_into()<CR>", { desc = "Debugger step into" })
+map("n", "<Leader>dj", "<cmd>lua require'dap'.step_over()<CR>", { desc = "Debugger step over" })
+map("n", "<Leader>dk", "<cmd>lua require'dap'.step_out()<CR>", { desc = "Debugger step out" })
+map("n", "<Leader>dc", "<cmd>lua require'dap'.continue()<CR>", { desc = "Debugger continue" })
+map("n", "<Leader>dd", "<cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>", { desc = "Debugger set conditional breakpoint" })
+map("n", "<Leader>de", "<cmd>lua require'dap'.terminate()<CR>", { desc = "Debugger reset" })
+map("n", "<Leader>dr", "<cmd>lua require'dap'.run_last()<CR>", { desc = "Debugger run last" })
