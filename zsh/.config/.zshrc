@@ -52,3 +52,9 @@ eval "$(starship init zsh)"
 # Misc Crap #
 #############
 alias starp="fold -sw 28 | lp -o print-quality=5 -d Star"
+
+export PATH=$PATH:~/.local/share/nvim/mason/bin
+
+export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+
+. "$HOME/.local/bin/env"
